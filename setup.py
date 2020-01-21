@@ -29,7 +29,7 @@ setup(
     keywords='catapult library',
     name='libcatapult',
     license='apache2',
-    packages=find_packages(include=['libcatapult']),
+    packages=find_packages(),
     install_requires=requirements,
     setup_requires=["wheel"],
     tests_require=requirements_test,
