@@ -43,7 +43,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -f nose2-junit.xml
 
 test: venv ## run tests quickly with the default Python
-	venv_make/bin/python setup.py test
+	venv_make/bin/python -m tox
 
 dist:  venv  clean ## builds source and wheel package
 	venv_make/bin/python setup.py sdist
@@ -56,5 +56,5 @@ install: clean venv  ## install the package to the active Python's site-packages
 venv: setup.py
 	which virtualenv
 	virtualenv venv_make --python=python3
-	venv_make/bin/pip install --upgrade pip setuptools wheel
+	venv_make/bin/pip install --upgrade pip setuptools wheel tox
 	venv_make/bin/python --version
