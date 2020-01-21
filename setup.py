@@ -31,7 +31,7 @@ setup(
     license='apache2',
     packages=find_packages(include=['libcatapult']),
     install_requires=requirements,
-    setup_requires=[],
+    setup_requires=["wheel"],
     tests_require=requirements_test,
     test_suite='nose2.collector.collector',
     url='https://github.com/SatelliteApplicationsCatapult/libcatapult.',

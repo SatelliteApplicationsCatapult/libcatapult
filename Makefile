@@ -26,8 +26,8 @@ clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .eggs/
-	find . -name '*.egg-info' -not -path './venv-make/*' -not -path './venv/*' -exec rm -fr {} +
-	find . -name '*.egg' -not -path './venv-make/*' -not -path './venv/*' -exec rm -f {} +
+	find . -name '*.egg-info' -not -path './venv-make/*' -not -path './venv/*' -not -path './venv_windows/*' -exec rm -fr {} +
+	find . -name '*.egg' -not -path './venv-make/*' -not -path './venv/*'  -not -path './venv_windows/*' -exec rm -f {} +
 
 clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -55,6 +55,6 @@ install: clean venv  ## install the package to the active Python's site-packages
 
 venv: setup.py
 	which virtualenv
-	virtualenv venv_make --python=python3
+	python3 -m venv --clear venv_make
 	venv_make/bin/pip install --upgrade pip setuptools wheel tox
 	venv_make/bin/python --version
