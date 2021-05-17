@@ -51,6 +51,18 @@ class S3Utils:
 
         return filenames
 
+    def list_files_with_sizes(self, prefix):
+        """
+        Create and return a list of all files in the bucket along with their file sizes.
+
+        :param: Prefix to search for, primarily a path but it's just a string match.
+        :return: List of dictionaries with name and size keys.
+        """
+        results = []
+        for obj in self.bucket.objects.filter(Prefix=prefix):
+            results.append({"name": obj.key, "size": obj.size})
+        return results
+
     def fetch_file(self, path, destination):
         """
         Download a file from S3 and put it in the destination
@@ -71,3 +83,5 @@ class S3Utils:
         """
         transfer = boto3.s3.transfer.S3Transfer(client=self.s3_client, config=self.transfer_config)
         transfer.upload_file(source, self.bucket.name, destination)
+
+

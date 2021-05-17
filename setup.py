@@ -34,5 +34,5 @@ setup(
     setup_requires=["wheel"],
     tests_require=requirements_test,
     test_suite='nose2.collector.collector',
-    url='https://github.com/SatelliteApplicationsCatapult/libcatapult.',
+    url='https://github.com/SatelliteApplicationsCatapult/libcatapult',
 )
