@@ -1,4 +1,7 @@
+import logging
+
 import boto3
+from botocore.exceptions import ClientError
 
 
 class S3Utils:
@@ -18,12 +21,6 @@ class S3Utils:
         )
 
         self.bucket = bucket
-        self.gb = 1024 ** 3
-
-        # Ensure that multipart uploads only happen if the size of a transfer is larger than S3's size limit for
-        # non multipart uploads, which is 5 GB. we copy using multipart at anything over 4gb
-        self.transfer_config = boto3.s3.transfer.TransferConfig(multipart_threshold=2 * self.gb, max_concurrency=10,
-                                                                multipart_chunksize=2 * self.gb, use_threads=True)
 
     def count(self):
         """
@@ -67,7 +64,13 @@ class S3Utils:
         :param destination: where on the local file system to put the file
         :return: None
         """
-        self.s3.Bucket(self.bucket).download_file(path, destination)
+        try:
+            self.s3.Bucket(self.bucket).download_file(path, destination)
+        except ClientError as ex:
+            if ex.response['Error']['Code'] == '404':
+                raise NoObjectError(f'Nothing found with {path} in {self.bucket} bucket')
+            else:
+                raise
 
     def put_file(self, source, destination):
         """
@@ -78,3 +81,7 @@ class S3Utils:
         :return: None
         """
         self.s3.Bucket(self.bucket).upload_file(source, destination)
+
+
+class NoObjectError(Exception):
+    pass

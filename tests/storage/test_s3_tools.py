@@ -5,7 +5,7 @@ from pathlib import Path
 
 import boto3
 from moto import mock_s3
-from libcatapult.storage.s3_tools import S3Utils
+from libcatapult.storage.s3_tools import S3Utils, NoObjectError
 
 BUCKET = 'test'
 
@@ -63,6 +63,17 @@ def test_fetch_file():
 
     assert os.path.exists("/tmp/test_fetch.txt")
     assert [row for row in open("/tmp/test_fetch.txt")] == [row for row in open("tests/data/bucket/test_1.txt")]
+
+
+@mock_s3
+def test_fetch_non_existent_file():
+    initialise_bucket(BUCKET)
+    s3 = S3Utils(access=None, secret=None, bucket=BUCKET, endpoint_url=None, region='us-east-1')
+    try:
+        s3.fetch_file("this_doesnt_exist.txt", "/tmp/test_fetch.txt")
+    except NoObjectError:
+        return
+    assert False
 
 
 @mock_s3
