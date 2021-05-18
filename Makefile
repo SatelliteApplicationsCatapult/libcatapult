@@ -13,7 +13,7 @@ for line in sys.stdin:
 endef
 export PRINT_HELP_PYSCRIPT
 
-all: clean build test dist
+all: clean test dist
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
