@@ -82,6 +82,15 @@ class S3Utils:
         """
         self.s3.Bucket(self.bucket).upload_file(source, destination)
 
+    def get_object_body(self, path):
+        try:
+            obj = self.s3.Object(bucket_name=self.bucket, key=path).get()
+            return obj.get('Body').read()
+        except ClientError as ex:
+            if ex.response['Error']['Code'] == 'NoSuchKey':
+                raise NoObjectError(f'Nothing found with {path} in {self.bucket} bucket')
+            raise
+
 
 class NoObjectError(Exception):
     pass
