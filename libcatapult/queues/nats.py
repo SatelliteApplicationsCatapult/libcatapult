@@ -26,6 +26,7 @@ class NatsQueue(BaseQueue):
     def close(self):
         if self.connection:
             self.connection.close()
+            self.connection = None
 
     def publish(self, channel: str, message: str):
         if not self.connection:
