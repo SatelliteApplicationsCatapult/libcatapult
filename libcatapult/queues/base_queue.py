@@ -42,3 +42,25 @@ class BaseQueue(object):
         :return:
         """
         pass
+
+    @abstractmethod
+    def receive(self, channel: str, timeout: int):
+        """
+        receive a message from the queue.
+
+        Will throw a NotConnectedException if connect has not been called.
+
+        :param channel: the channel to receive from
+        :param timeout: how long to wait if nothing is available to receive.
+        :return: the message received
+        """
+        pass
+
+    @abstractmethod
+    def empty(self, channel: str):
+        """
+        will return True if the channel is empty
+        :param channel: the channel to check for being empty
+        :return: True or False
+        """
+        pass

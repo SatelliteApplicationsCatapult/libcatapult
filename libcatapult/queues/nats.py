@@ -32,3 +32,10 @@ class NatsQueue(BaseQueue):
         if not self.connection:
             raise NotConnectedException()
         self.connection.publish(channel, message)
+
+    # TODO: implement. ES: Don't need this currently so not implementing
+    def receive(self, channel: str, timeout: int):
+        raise NotImplemented
+
+    def empty(self, channel: str):
+        raise NotImplemented

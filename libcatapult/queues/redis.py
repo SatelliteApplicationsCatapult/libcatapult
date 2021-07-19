@@ -34,3 +34,15 @@ class RedisQueue(BaseQueue):
         if not self.connection:
             raise NotConnectedException()
         self.connection.rpush(channel, message)
+
+    def receive(self, channel: str, timeout: int = 1):
+        if not self.connection:
+            raise NotConnectedException()
+        item = self.connection.brpop(channel, timeout=timeout)[1]
+        return item.decode("utf-8")
+
+    def empty(self, channel: str):
+        if not self.connection:
+            raise NotConnectedException()
+        print(self.connection.llen(channel))
+        return self.connection.llen(channel) == 0
