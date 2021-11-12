@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from mock import AsyncMock
 from nats.aio.client import Client as NATS
 import pytest
 
@@ -15,8 +15,8 @@ def test_not_connected():
 def test_nats_double_disconnect():
     nc = NatsQueue("nats://somewhere:12345")
     nc.connection = NATS()
-    nc.connection.connect = MagicMock()
-    mock_close = MagicMock()
+    nc.connection.connect = AsyncMock()
+    mock_close = AsyncMock()
     nc.connection.close = mock_close
 
     nc.close()
@@ -28,9 +28,9 @@ def test_nats_double_disconnect():
 def test_nats_send():
     nc = NatsQueue("nats://somewhere:12345")
     nc.connection = NATS()
-    nc.connection.connect = MagicMock()
-    nc.connection.close = MagicMock()
-    nc.connection.publish = MagicMock()
+    nc.connection.connect = AsyncMock()
+    nc.connection.close = AsyncMock()
+    nc.connection.publish = AsyncMock()
 
     nc.publish("a channel", "a message")
 

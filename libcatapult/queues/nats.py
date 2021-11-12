@@ -1,5 +1,8 @@
 
+
 from nats.aio.client import Client as NATS
+
+from libcatapult import asyncutils
 from libcatapult.queues.base_queue import BaseQueue, NotConnectedException
 
 
@@ -20,18 +23,18 @@ class NatsQueue(BaseQueue):
                 "servers": [self.server],
             }
             self.connection = NATS()
-            self.connection.connect(**options)
+            asyncutils.run(self.connection.connect(**options))
         return self.connection
 
     def close(self):
         if self.connection:
-            self.connection.close()
+            asyncutils.run(self.connection.close())
             self.connection = None
 
     def publish(self, channel: str, message: str):
         if not self.connection:
             raise NotConnectedException()
-        self.connection.publish(channel, message)
+        asyncutils.run(self.connection.publish(channel, message))
 
     # TODO: implement. ES: Don't need this currently so not implementing
     def receive(self, channel: str, timeout: int):

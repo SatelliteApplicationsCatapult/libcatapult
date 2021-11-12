@@ -3,3 +3,5 @@ coverage
 pytest
 moto~=1.3.16
 fakeredis~=1.5.2
+mock
+asyncmock
