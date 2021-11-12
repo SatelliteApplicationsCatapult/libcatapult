@@ -11,6 +11,12 @@ def run(main):
         import asyncio
         asyncio.run(main)
     else:
-        loop = events.new_event_loop()
+        # events.get_event_loop() will throw an exception if there is no event loop running
+        # so we have to use the "private" method here as that returns none. This is similar
+        # to what asyncio.run does in 3.7 and above.
+        if events._get_running_loop() is not None:
+            loop = events.get_event_loop()
+        else:
+            loop = events.new_event_loop()
         events.set_event_loop(loop)
         return loop.run_until_complete(main)
