@@ -9,7 +9,7 @@ def run(main):
       """
     if sys.version_info >= (3, 7):
         import asyncio
-        asyncio.run(main)
+        return asyncio.run(main, debug=True)
     else:
         # events.get_event_loop() will throw an exception if there is no event loop running
         # so we have to use the "private" method here as that returns none. This is similar

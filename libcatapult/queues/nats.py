@@ -34,7 +34,7 @@ class NatsQueue(BaseQueue):
     def publish(self, channel: str, message: str):
         if not self.connection:
             raise NotConnectedException()
-        asyncutils.run(self.connection.publish(channel, message))
+        asyncutils.run(self.connection.publish(channel, message.encode("utf8")))
 
     # TODO: implement. ES: Don't need this currently so not implementing
     def receive(self, channel: str, timeout: int):
