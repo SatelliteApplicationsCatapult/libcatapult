@@ -31,7 +31,6 @@ def test_nats_send():
     nc.connection.connect = AsyncMock()
     nc.connection.close = AsyncMock()
     nc.connection.publish = AsyncMock()
-
     nc.publish("a channel", "a message")
 
-    nc.connection.publish.assert_called_once_with("a channel", "a message")
+    nc.connection.publish.assert_called_once_with("a channel", "a message".encode("utf8"))
