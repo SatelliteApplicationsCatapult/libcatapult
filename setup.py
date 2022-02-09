@@ -25,7 +25,7 @@ setup(
     description='A library of useful code for use in the catapult',
     long_description=readme + '\n\n' + history,
     long_description_content_type="text/markdown",
-    version='0.1.5',
+    version='0.1.6',
     keywords='catapult library',
     name='libcatapult',
     license='apache2',
