@@ -6,7 +6,8 @@ from pathlib import Path
 import boto3
 import pytest
 from moto import mock_s3
-from libcatapult.storage.s3_tools import S3Utils, NoObjectError
+from libcatapult.storage.base_storage import NoObjectError
+from libcatapult.storage.s3_tools import S3Utils
 
 BUCKET = 'test'
 
